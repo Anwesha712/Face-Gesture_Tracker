@@ -155,7 +155,7 @@ def gen_frame():
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
              
 
-cred = credentials.Certificate(r'C:\Users\User\Desktop\Attendence System\project\serviceAccountKey.json')
+cred = credentials.Certificate(r'C:\Users\aritr\OneDrive\Desktop\FaceAndGesture_Tracker\serviceAccountKey.json')
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://faceattendanceas-default-rtdb.firebaseio.com/",
     'storageBucket': "faceattendanceas.appspot.com"
