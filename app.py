@@ -89,7 +89,14 @@ def open_Sign():
 
 
 # atd
+studentInfo = None
+studentInfo_set = False
+
+
 def gen_frame():
+    global studentInfo
+    global datetimeObject
+    global imgStudent
     while True:
         success, frame = camera.read()
         if not success:
@@ -104,7 +111,6 @@ def gen_frame():
             print("Encode File Loaded")
             counter = 0
             id = -1
-            global imgStudent
             imgStudent = []
 
             imgS = cv2.resize(frame, (0, 0), None, 0.25, 0.25)
@@ -131,14 +137,12 @@ def gen_frame():
                         id = studentIds[matchIndex]
                         if counter == 0:
                             counter = 1
-                            # modeType = 1
+                            studentInfo_set = True
 
                 if counter != 0:
 
                     if counter == 1:
                         # Get the Data
-                        global studentInfo
-                        global datetimeObject
                         studentInfo = db.reference(f'Students/{id}').get()
                         print(studentInfo)
                         # Get the Image from the storage
@@ -201,10 +205,17 @@ def video():
 
 @app.route('/stop')
 def stop():
+    global studentInfo
+    global datetimeObject
+    global imgStudent
+    global studentInfo_set
+    if studentInfo_set == False:
+        return render_template('atd.html')
+
     name = studentInfo['name']
     time = datetimeObject
     roll = studentInfo['roll']
-    return render_template('index.html', name=name, time=time, roll=roll)
+    return render_template('atd.html', name=name, time=time, roll=roll)
 
 
 if __name__ == "__main__":
